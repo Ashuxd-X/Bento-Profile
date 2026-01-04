@@ -36,7 +36,7 @@ const socialLinks: SocialLink[] = [
   {
     name: "Resume",
     subtitle: "Download my CV",
-    href: "#",
+    href: "/resume.pdf",
     icon: FileText,
     gradient: "from-emerald-500 to-teal-600",
   },
