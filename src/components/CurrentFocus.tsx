@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Sparkles, Zap } from "lucide-react";
 
+const focusText = "Mastering Python Backend Architecture & Scalable APIs";
+
 const CurrentFocus = () => {
   return (
     <motion.div
@@ -26,8 +28,8 @@ const CurrentFocus = () => {
         }}
       />
 
-      {/* Pulsing Green Dot with enhanced animation */}
-      <div className="relative flex items-center justify-center">
+      {/* Pulsing Green Dot (Unchanged) */}
+      <div className="relative flex items-center justify-center flex-shrink-0">
         <motion.span 
           className="absolute inline-flex h-6 w-6 rounded-full bg-status/30"
           animate={{
@@ -70,10 +72,10 @@ const CurrentFocus = () => {
         />
       </div>
 
-      {/* Content */}
-      <div className="flex-1 min-w-0 relative z-10">
+      {/* Content Section - UPDATED */}
+      <div className="flex-1 min-w-0 relative z-10 overflow-hidden">
         <motion.div 
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 mb-0.5"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -106,14 +108,29 @@ const CurrentFocus = () => {
             <Zap className="w-3 h-3 text-yellow-500" />
           </motion.div>
         </motion.div>
-        <motion.p 
-          className="text-sm font-medium text-foreground mt-0.5 truncate"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          Mastering Python Backend Architecture & Scalable APIs
-        </motion.p>
+
+        {/* Marquee Text Effect */}
+        <div className="relative w-full overflow-hidden mask-linear-gradient">
+          <motion.div
+            className="flex whitespace-nowrap gap-8"
+            animate={{ x: "-50%" }} 
+            transition={{
+              duration: 15, // Speed of the scroll (higher = slower)
+              repeat: Infinity,
+              ease: "linear",
+              repeatType: "loop"
+            }}
+            style={{ width: "fit-content" }}
+          >
+            {/* We repeat the text twice to create a seamless loop */}
+            <p className="text-sm font-medium text-foreground">
+              {focusText}
+            </p>
+            <p className="text-sm font-medium text-foreground">
+              {focusText}
+            </p>
+          </motion.div>
+        </div>
       </div>
     </motion.div>
   );
