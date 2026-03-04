@@ -73,7 +73,8 @@ const SocialLinks = () => {
       className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       variants={containerVariants}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
     >
       {socialLinks.map((link) => (
         <motion.div key={link.name} variants={itemVariants}>

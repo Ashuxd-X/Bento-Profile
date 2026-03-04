@@ -1,130 +1,174 @@
-import { motion } from "framer-motion";
-import { Blocks, ExternalLink, Sparkles } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { Blocks, ExternalLink, Github, ShoppingCart, Cpu, Cloud, ListChecks, ArrowRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface Project {
   name: string;
+  description: string;
   href: string;
+  tags: string[];
+  icon: LucideIcon;
+  accentColor: string;
+  longDescription?: string;
+  features?: string[];
+  techStack?: string[];
 }
 
-const recentBuilds: Project[] = [
-  { name: "JS Calculator", href: "#" },
-  { name: "Weather App", href: "#" },
-  { name: "Todo List", href: "#" },
-  { name: "Portfolio v1", href: "#" },
+export const recentBuilds: Project[] = [
+  {
+    name: "CartOfArts.in",
+    description: "Full-featured ecommerce platform with payments, cart, and admin dashboard",
+    href: "https://cartofarts.in",
+    tags: ["E-Commerce", "Full-Stack"],
+    icon: ShoppingCart,
+    accentColor: "from-rose-500 to-pink-600",
+    longDescription: "CartOfArts is a comprehensive e-commerce ecosystem designed for creative professionals. It features a custom-built cart system, secure payment gateway integration, and a robust administrative dashboard for real-time inventory and order management.",
+    techStack: ["Next.js", "TypeScript", "Node.js", "Razorpay API"],
+    features: ["Dynamic Inventory Management", "Real-time Order Tracking", "Secure Checkout Flow", "Admin Analytics Dashboard"]
+  },
+  {
+    name: "Bento Profile",
+    description: "Interactive developer profile with bento grid layout",
+    href: "https://github.com/Ashuxd-X/Bento-Profile",
+    tags: ["React", "Tailwind"],
+    icon: Cpu,
+    accentColor: "from-violet-500 to-purple-600",
+    longDescription: "A premium, high-fidelity developer portfolio inspired by Apple and Linear aesthetics. This project focuses on atomic design principles, sophisticated animations, and a hardware-integrated look and feel.",
+    techStack: ["React", "Framer Motion", "Tailwind CSS", "Vite"],
+    features: ["Custom Design System", "Liquid-smooth Animations", "Responsive Bento Grid", "Advanced Interaction Hooks"]
+  },
+  {
+    name: "Weather App",
+    description: "Real-time weather dashboard with city search & forecasts",
+    href: "https://github.com/Ashuxd-X",
+    tags: ["JavaScript", "API"],
+    icon: Cloud,
+    accentColor: "from-sky-500 to-blue-600",
+    longDescription: "A high-performance weather telemetry dashboard providing real-time atmospheric data. It leverages external APIs to deliver accurate forecasts with a clean, hardware-inspired visualization layer.",
+    techStack: ["React", "OpenWeather API", "Chart.js", "Glassmorphism"],
+    features: ["Global City Search", "Hourly/Daily Forecasts", "Real-time UV & Humidity", "Dynamic Backgrounds"]
+  },
+  {
+    name: "Task Manager",
+    description: "Full-stack task manager with auth & team collaboration",
+    href: "https://github.com/Ashuxd-X",
+    tags: ["MERN", "Auth"],
+    icon: ListChecks,
+    accentColor: "from-emerald-500 to-teal-600",
+    longDescription: "A professional-grade productivity application designed for distributed teams. Features include real-time task synchronization, role-based access control, and collaborative workspaces.",
+    techStack: ["MongoDB", "Express", "React", "Node.js"],
+    features: ["Real-time Sync", "Team Workspaces", "Kanban Board View", "Activity Log Telemetry"]
+  },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.5,
+      delayChildren: 0.2,
     },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      type: "spring" as const,
-      stiffness: 200,
-      damping: 15,
+      type: "spring",
+      stiffness: 100,
+      damping: 12,
     },
   },
 };
 
-const PlaygroundCard = () => {
+interface PlaygroundCardProps {
+  onProjectClick: (project: Project) => void;
+}
+
+const PlaygroundCard = ({ onProjectClick }: PlaygroundCardProps) => {
   return (
-    <motion.div
-      className="glass-card p-5 h-full relative overflow-hidden"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {/* Animated background */}
-      <motion.div
-        className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-gradient-to-br from-violet-500/10 to-purple-600/10 blur-3xl"
-        animate={{
-          scale: [1, 1.3, 1],
-          x: [0, 30, 0],
-          y: [0, 20, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      
-      <div className="flex items-center gap-3 mb-4 relative z-10">
-        <motion.div 
-          className="p-2.5 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg relative"
-          whileHover={{ rotate: 180, scale: 1.1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Blocks className="w-5 h-5 text-white" />
-          <motion.div
-            className="absolute -top-1 -right-1"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [1, 0.5, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-            }}
-          >
-            <Sparkles className="w-3 h-3 text-yellow-400" />
-          </motion.div>
-        </motion.div>
-        <div>
-          <h3 className="font-display font-semibold text-foreground">Playground</h3>
-          <p className="text-xs text-muted-foreground">Recent Builds</p>
-        </div>
+    <div className="flex flex-col gap-8">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[11px] font-bold text-muted-foreground uppercase tracking-[0.3em] flex items-center gap-2">
+          <Blocks className="w-3 h-3" />
+          Build Inventory
+        </h2>
+        <div className="h-px flex-1 bg-border/40 ml-4 max-w-[40px]" />
       </div>
-      
-      <motion.div 
-        className="grid grid-cols-2 gap-2 relative z-10"
+
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
       >
-        {recentBuilds.map((project, index) => (
-          <motion.a
-            key={project.name}
-            href={project.href}
-            className="group flex items-center justify-between p-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-all duration-300 relative overflow-hidden"
-            variants={itemVariants}
-            whileHover={{ 
-              scale: 1.05, 
-              y: -2,
-              boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.3)",
-            }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {/* Shimmer effect on hover */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-            />
-            
-            <span className="text-sm font-medium text-foreground truncate relative z-10">
-              {project.name}
-            </span>
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              whileHover={{ opacity: 1, x: 0 }}
+        {recentBuilds.map((project) => {
+          const Icon = project.icon;
+          return (
+            <motion.button
+              key={project.name}
+              onClick={() => onProjectClick(project)}
+              className="group p-5 rounded-2xl bg-secondary/30 hover:bg-secondary/60 border border-border/40 hover:border-primary/20 transition-all duration-500 relative overflow-hidden text-left"
+              variants={itemVariants}
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              layoutId={`project-card-${project.name}`}
             >
-              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 flex-shrink-0 ml-2 relative z-10" />
-            </motion.div>
-          </motion.a>
-        ))}
+              {/* Background glow on hover */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="flex items-start justify-between mb-4 relative z-10">
+                <div className="feature-icon-wrapper w-10 h-10 group-hover:bg-primary/5">
+                  <Icon className="w-4 h-4 text-primary" />
+                </div>
+                <div className="p-1.5 rounded-lg bg-background/80 border border-border/40 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                  <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                </div>
+              </div>
+
+              <div className="space-y-2 relative z-10">
+                <motion.h3
+                  layoutId={`project-title-${project.name}`}
+                  className="text-sm font-bold text-foreground group-hover:text-gradient-premium transition-colors"
+                >
+                  {project.name}
+                </motion.h3>
+                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2 font-medium">
+                  {project.description}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 mt-5 relative z-10">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md bg-background/50 border border-border/20 text-muted-foreground/60"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </motion.button>
+          );
+        })}
       </motion.div>
-    </motion.div>
+
+      <motion.a
+        href="https://github.com/Ashuxd-X"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-3 p-3 rounded-xl bg-secondary/20 border border-border/40 hover:border-primary/20 text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all duration-500"
+        whileHover={{ y: -2 }}
+      >
+        <Github className="w-3.5 h-3.5" />
+        View Complete Archive
+      </motion.a>
+    </div>
   );
 };
 

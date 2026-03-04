@@ -4,70 +4,36 @@ import { MapPin } from "lucide-react";
 const MapCard = () => {
   return (
     <motion.div
-      className="glass-card p-4 h-full flex flex-col items-center justify-center text-center relative overflow-hidden card-shine hover-lift"
-      initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-      transition={{ delay: 0.5, duration: 0.6, type: "spring", stiffness: 200 }}
-      whileHover={{ scale: 1.05 }}
+      className="premium-card p-6 h-full min-h-[160px] flex flex-col items-center justify-center text-center relative overflow-hidden"
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Animated background rings */}
+      {/* Background Instrument Grid */}
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
+
       <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
+        className="w-12 h-12 feature-icon-wrapper mb-4 group"
+        whileHover={{ scale: 1.1, rotate: 10 }}
       >
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full border border-rose-500/20"
-            style={{
-              width: `${60 + i * 30}px`,
-              height: `${60 + i * 30}px`,
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.1, 0.3],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.5,
-            }}
-          />
-        ))}
+        <MapPin className="w-5 h-5 text-rose-500 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
       </motion.div>
 
-      <motion.div 
-        className="p-3 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 shadow-lg mb-3 relative z-10"
-        whileHover={{ scale: 1.1, rotate: 360 }}
-        transition={{ duration: 0.5 }}
-        animate={{
-          y: [0, -5, 0],
-        }}
-        style={{
-          animation: "float 3s ease-in-out infinite",
-        }}
-      >
-        <MapPin className="w-6 h-6 text-white" />
-      </motion.div>
-      <motion.p 
-        className="text-xs text-muted-foreground relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
-        Based in
-      </motion.p>
-      <motion.p 
-        className="text-sm font-semibold text-foreground relative z-10"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-      >
-        India 🇮🇳
-      </motion.p>
+      <div className="space-y-1 relative z-10">
+        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
+          Current Base
+        </p>
+        <p className="text-sm font-bold text-foreground tracking-tight">
+          India <span className="text-base">🇮🇳</span>
+        </p>
+      </div>
+
+      {/* Decorative Corner Detail */}
+      <div className="absolute bottom-2 right-2 opacity-20">
+        <div className="w-4 h-4 border-b border-r border-foreground" />
+      </div>
     </motion.div>
   );
 };

@@ -1,12 +1,24 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import {
+  Atom,
+  Wind,
+  Code2,
+  Cpu,
+  Terminal,
+  Database,
+  Layers,
+  FileCode
+} from "lucide-react";
 
 const technologies = [
-  { name: "React", color: "bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30", glow: "sky" },
-  { name: "TypeScript", color: "bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/30", glow: "blue" },
-  { name: "Tailwind CSS", color: "bg-teal-500/20 text-teal-600 dark:text-teal-400 border-teal-500/30", glow: "teal" },
-  { name: "JavaScript", color: "bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30", glow: "yellow" },
-  { name: "Node.js", color: "bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/30", glow: "green" },
-  { name: "Python", color: "bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30", glow: "yellow" },
+  { name: "React", icon: Atom, color: "text-sky-500" },
+  { name: "TypeScript", icon: FileCode, color: "text-blue-500" },
+  { name: "Tailwind", icon: Wind, color: "text-teal-500" },
+  { name: "JavaScript", icon: Code2, color: "text-yellow-500" },
+  { name: "Node.js", icon: Cpu, color: "text-green-500" },
+  { name: "Python", icon: Terminal, color: "text-orange-500" },
+  { name: "MongoDB", icon: Database, color: "text-emerald-500" },
+  { name: "Next.js", icon: Layers, color: "text-slate-400" },
 ];
 
 const containerVariants = {
@@ -15,97 +27,61 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3,
+      delayChildren: 0.2,
     },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, scale: 0.5, y: 30 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8, y: 15 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
       type: "spring" as const,
-      stiffness: 300,
-      damping: 15,
+      stiffness: 100,
+      damping: 12,
     },
   },
 };
 
 const TechStack = () => {
   return (
-    <motion.div
-      className="glass-card p-6 relative overflow-hidden"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {/* Animated background gradient */}
-      <motion.div
-        className="absolute inset-0 opacity-30"
-        animate={{
-          background: [
-            "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-            "radial-gradient(circle at 100% 100%, hsl(var(--accent) / 0.1) 0%, transparent 50%)",
-            "radial-gradient(circle at 0% 100%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-            "radial-gradient(circle at 100% 0%, hsl(var(--accent) / 0.1) 0%, transparent 50%)",
-            "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-          ],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[11px] font-bold text-muted-foreground uppercase tracking-[0.3em]">
+          Instrumental Stack
+        </h2>
+        <div className="h-px flex-1 bg-border/40 ml-4 max-w-[40px]" />
+      </div>
 
-      <motion.h2 
-        className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4 relative z-10"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        Tech Stack
-      </motion.h2>
-      
       <motion.div
-        className="flex flex-wrap gap-2 relative z-10"
+        className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3 sm:gap-4"
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
       >
-        {technologies.map((tech, index) => (
-          <motion.span
+        {technologies.map((tech) => (
+          <motion.div
             key={tech.name}
-            className={`px-3 py-1.5 text-sm font-medium rounded-full border backdrop-blur-sm ${tech.color} cursor-default relative overflow-hidden`}
+            className="group relative"
             variants={itemVariants}
-            whileHover={{ 
-              scale: 1.15,
-              y: -5,
-              transition: { type: "spring", stiffness: 400, damping: 10 }
-            }}
-            whileTap={{ scale: 0.95 }}
           >
-            {/* Shimmer effect */}
-            <motion.span
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
-              animate={{
-                translateX: ["-100%", "100%"],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 3 + index * 0.5,
-                ease: "easeInOut",
-              }}
-            />
-            <span className="relative z-10">{tech.name}</span>
-          </motion.span>
+            <div className="flex flex-col items-center gap-3">
+              <div className="feature-icon-wrapper w-full aspect-square max-w-[64px] group-hover:bg-primary/5 transition-colors duration-500 relative">
+                <tech.icon className={`w-6 h-6 ${tech.color} opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110`} />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-primary/20 blur-xl transition-opacity duration-700 pointer-events-none" />
+              </div>
+              <span className="text-[10px] font-bold text-muted-foreground/60 transition-colors duration-300 group-hover:text-foreground">
+                {tech.name}
+              </span>
+            </div>
+          </motion.div>
         ))}
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

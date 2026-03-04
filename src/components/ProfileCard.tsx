@@ -5,159 +5,87 @@ interface ProfileCardProps {
   name: string;
   title: string;
   bio: string;
-  //avatarSeed?: string;
   imageSrc?: string;
   isOpenToWork?: boolean;
 }
 
-const ProfileCard = ({ 
-  name, 
-  title, 
-  bio, 
-  //avatarSeed = "felix", 
+const ProfileCard = ({
+  name,
+  title,
+  bio,
   imageSrc = defaultProfileImg,
-  isOpenToWork = true 
+  isOpenToWork = true
 }: ProfileCardProps) => {
-  //const avatarUrl = `https://api.dicebear.com/7.x/notionists/svg?seed=${avatarSeed}&backgroundColor=c0aede`;
-
   return (
     <motion.div
-      className="glass-card p-8 text-center relative overflow-hidden card-shine"
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.01 }}
+      className="premium-card p-8 md:p-10 text-center relative h-full flex flex-col items-center justify-center overflow-hidden"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Animated background glow */}
-      <motion.div
-        className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-primary/20 blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-accent/20 blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
+      {/* Dynamic Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
-      {/* Avatar */}
+      {/* Avatar Container */}
       <motion.div
-        className="relative inline-block mb-6"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ 
-          type: "spring", 
-          stiffness: 200, 
-          damping: 15,
-          delay: 0.2 
-        }}
-        whileHover={{ scale: 1.08, rotate: 5 }}
+        className="relative mb-8"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
       >
-        <motion.div 
-          className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/20 dark:ring-primary/30 mx-auto relative"
-          animate={{
-            boxShadow: [
-              "0 0 0 0 hsl(var(--primary) / 0)",
-              "0 0 30px 10px hsl(var(--primary) / 0.2)",
-              "0 0 0 0 hsl(var(--primary) / 0)",
-            ],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <img 
-  src={imageSrc} 
-  alt={`${name}'s avatar`}
-  // Added 'image-render-pixel' custom class logic or standard Tailwind
-  className="w-full h-full object-cover bg-secondary"
-  style={{ 
-    imageRendering: "auto", // Ensures browser smoothes the image
-    // optional: for Chrome sometimes this specific hint helps reduce blur
-    WebkitFontSmoothing: "antialiased", 
-  }}
-/>
-        </motion.div>
-        
-        {/* Open to Work Badge */}
-        {isOpenToWork && (
-          <motion.div
-            className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-10"
-            initial={{ opacity: 0, scale: 0, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.5, type: "spring", stiffness: 300 }}
-          >
-            <motion.div 
-              className="relative flex items-center gap-1 bg-status text-white text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 rounded-full shadow-lg"
-              whileHover={{ scale: 1.05 }}
-              animate={{
-                boxShadow: [
-                  "0 2px 10px hsl(142 76% 45% / 0.2)",
-                  "0 2px 15px hsl(142 76% 45% / 0.4)",
-                  "0 2px 10px hsl(142 76% 45% / 0.2)",
-                ],
-              }}
-              transition={{
-                boxShadow: {
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                },
-              }}
-            >
-              <span className="status-pulse w-1.5 h-1.5 bg-white rounded-full" />
-              Open to Work
-            </motion.div>
-          </motion.div>
-        )}
+        <div className="relative group">
+          <div className="absolute -inset-1 bg-gradient-to-tr from-primary/30 to-accent/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-2 border-border/50 relative z-10 bg-secondary">
+            <img
+              src={imageSrc}
+              alt={name}
+              className="w-full h-full object-cover grayscale-[20%] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+              loading="eager"
+            />
+          </div>
+
+          {/* Status Indicator Embedded */}
+          {isOpenToWork && (
+            <div className="absolute -bottom-1 -right-1 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-background border border-emerald-500/20 shadow-xl">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Available</span>
+            </div>
+          )}
+        </div>
       </motion.div>
 
-      {/* Name with gradient */}
-      <motion.h1
-        className="text-3xl md:text-4xl font-display font-bold text-gradient mb-2 animate-gradient"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {name}
-      </motion.h1>
+      {/* Content Block */}
+      <div className="relative z-10 space-y-3">
+        <motion.h1
+          className="text-4xl md:text-5xl font-display font-bold tracking-tight text-gradient-premium leading-none"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          {name}
+        </motion.h1>
 
-      {/* Title with typewriter effect simulation */}
-      <motion.p
-        className="text-lg text-muted-foreground font-medium mb-4"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-      >
-        {title}
-      </motion.p>
+        <motion.p
+          className="text-sm md:text-base font-semibold text-primary/80 uppercase tracking-[0.2em]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          {title}
+        </motion.p>
 
-      {/* Bio */}
-      <motion.p
-        className="text-foreground/80 leading-relaxed max-w-md mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-      >
-        {bio}
-      </motion.p>
+        <motion.p
+          className="text-foreground/70 text-sm md:text-base leading-relaxed max-w-sm mx-auto font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {bio}
+        </motion.p>
+      </div>
+
+      {/* Decorative Scan Line */}
+      <div className="scan-effect absolute inset-0 opacity-10 pointer-events-none" />
     </motion.div>
   );
 };

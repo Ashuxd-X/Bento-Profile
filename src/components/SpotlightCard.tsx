@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 interface SpotlightCardProps {
@@ -31,64 +31,43 @@ const SpotlightCard = ({ name, subtitle, href, icon: Icon, gradient }: Spotlight
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="group relative flex items-center gap-4 p-6 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
-      style={{
-        background: "hsl(var(--card))",
-        border: "1px solid hsl(var(--border))",
-      }}
+      className="premium-card group relative flex items-center gap-4 p-5 cursor-pointer overflow-hidden transition-all duration-500"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Spotlight Effect */}
+      {/* Dynamic Spotlight Effect */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
         style={{
-          background: isHovering
-            ? `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary) / 0.15), transparent 40%)`
-            : "none",
-        }}
-      />
-      
-      {/* Border Glow */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
-        style={{
-          background: isHovering
-            ? `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary) / 0.1), transparent 40%)`
-            : "none",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "xor",
-          WebkitMaskComposite: "xor",
-          padding: "1px",
+          background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary) / 0.08), transparent 60%)`
         }}
       />
 
-      {/* Icon Container */}
-      <div className={`relative z-10 p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg`}>
-        <Icon className="w-6 h-6 text-white" />
+      {/* Icon System */}
+      <div className="relative z-10 feature-icon-wrapper w-10 h-10 group-hover:bg-primary/5 transition-colors duration-500">
+        <Icon className={`w-4 h-4 text-foreground group-hover:text-primary transition-colors duration-500`} />
       </div>
-      
-      {/* Text Content */}
-      <div className="relative z-10 flex-1 min-w-0">
-        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors font-display">
-          {name}
-        </h3>
-        <p className="text-sm text-muted-foreground truncate">
+
+      {/* Text Module */}
+      <div className="relative z-10 flex-1 min-w-0 pointer-events-none">
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-sm font-bold text-foreground tracking-tight group-hover:text-primary transition-colors duration-300">
+            {name}
+          </h3>
+          <ArrowUpRight className="w-2.5 h-2.5 text-muted-foreground/30 group-hover:text-primary/50 transition-all duration-300 translate-y-0.5" />
+        </div>
+        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.15em] opacity-60 mt-0.5">
           {subtitle}
         </p>
       </div>
-      
-      {/* Arrow */}
-      <motion.div
-        className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-        initial={{ x: -10 }}
-        whileHover={{ x: 0 }}
-      >
-        <ExternalLink className="w-4 h-4 text-muted-foreground" />
-      </motion.div>
+
+      {/* Hardware-style Status indicator (optional, just for aesthetic) */}
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-0.5 opacity-10">
+        <div className="w-1 h-3 bg-foreground rounded-full" />
+        <div className="w-1 h-1 bg-foreground rounded-full" />
+      </div>
     </motion.a>
   );
 };
